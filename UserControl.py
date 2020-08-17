@@ -22,6 +22,31 @@ class UserController:
             print("index too high or too low idk")
             self.get_playlist_choice()
             return
-        print("inex is {}".format(index))
+        self.lastSelectedPlaylist = playlists[i-1]
+        print("aight boyo u selected {}".format(self.lastSelectedPlaylist.name))
+    def get_requested_time(self):
+        hours = input("how many hours u want it?")
+        if not hours.isnumeric():
+            print("not a number :(")
+            self.get_requested_time()
+            return
+        hours = int(hours)
         
+        minutes = input("how many minutes u want it?")
+        if not minutes.isnumeric():
+            print("not a number :(")
+            self.get_requested_time()
+            return
+        minutes = int(minutes)
         
+        seconds = input("how many seconds u want it?")
+        if not seconds.isnumeric():
+            print("not a number :(")
+            self.get_requested_time()
+            return
+        seconds = int(seconds)
+        
+        self.millisecondsRequested = self.milliseconds_from_hours_minutes_seconds(hours, minutes, seconds)
+        
+    def milliseconds_from_hours_minutes_seconds(self, hours, minutes, seconds):
+        return ((((hours * 60) + minutes) * 60) + seconds) * 1000
