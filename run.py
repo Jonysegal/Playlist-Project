@@ -1,3 +1,3 @@
-from SpotifyPlaylist import Runner
-print("hello am run")
-leRunner = Runner()
+from UserControl import UserController
+userControl = UserController()
+userControl.get_playlist_choice()
