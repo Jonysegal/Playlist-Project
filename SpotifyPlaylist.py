@@ -1,9 +1,10 @@
 import requests
 import urllib.parse
 import json
+from track import Track
 
 class Runner: 
-    api_token = 'BQBoow3WkJs7TLb8xR_NVG6lWzny9Jx-Zl3BcIl255tiWlnZwYARMKqgOTjUOKqiN6JxxaKqx8w0-COEHlN2ocKrTzaBBrfhTHfQ5WLk16K4rRkKVWDTErGwuaAXXxw1IFV9l1lxa_zeWi4Wf1_PkPkTZywI8z1QAZxqDlaiqZl63ZiArBvIkxxx78yYdkjYyNvsPwFHD5OCTPrnzyEMp7Uiz62s9ulAwaKTX9tXGBBz6cEs31HnVFUNYVoTloHBMsWi6GgHo7ZiGVIts5NGSVhioZKgj41hjKT6'
+    api_token = 'BQDPB27u3CPIESrR4mOYw2sJ1X6B0A3N-KcKr5omWOQ335DM0nGqauZShWvwg4Xwa4NrYKEh51loyEmSEQbXTxx2RLdPFIaGwoIjnM3Sqd_DfDv1kZau5d_7c-1DH8EdPSeFm96zgVobgQUpjHJDObZ2PINwqoPVk5kAlydnhel-SKLTWb6SIH_jX-XwRVux4E_E-Bgpj_BKCeCD7zzgVDtUp3ms6cztqNEtbQLzyJZl_wd7oXZtTVs7UyOS3ZTUKC2Ev80FNGErT2BwI7_CLAyZnvgU_FgdZXt8'
     user_id = 'ol0ys8y3412mh7tfh9n0lbprc'
     def search_song(self, artist, track):
 
@@ -61,21 +62,36 @@ class Runner:
             headers={"Authorization": f"Bearer {self.api_token}"
                 }
             )
+        if not response.ok:
+            print("couldn't get playlists")
+            print(response.json())
         return response.json().get('items')
-    def read_playlist(self, playlist_id):
+    def get_tracks_in_playlist(self, playlist):
         #note: can only get max of 100 items, but allowed to give an offset
         #therefore can iterate over full playlist by just popping up 100 in the offset until full thing is read
         #obviously will have to contain it or whatever
+        toReturn = []
+        playlist_id = playlist.get('id')
         url = "https://api.spotify.com/v1/playlists/{}/tracks".format(playlist_id)
-        print("url is " + url)
-        response = requests.get(
-            url,
-            headers={"Authorization": f"Bearer {self.api_token}"
-                }
-            )
+        offset = 0
+        playlistCount = playlist.get('tracks').get('total')
+        while offset < playlistCount:
+            offsetUrl = url + "?offset={}".format(offset)
+            response = requests.get(
+                offsetUrl,
+                headers={"Authorization": f"Bearer {self.api_token}"
+                    }
+                )
+            if not response.ok:
+                print("somethign went wrong reading stuff")
+            else:
+                for track in response.json().get('items'):
+                    print("just added {}".format(track.get('track').get('name')))
+                    toReturn.append(Track(track.get('track').get('id'), track.get('track').get('name')))
+                    
+            offset += 100
+        return toReturn
         
-        for x in response.json().get('items'):
-            print(x.get('track').get('name'))
     def make_new_playlist_called(self, name):
         url= "https://api.spotify.com/v1/users/{}/playlists".format(self.user_id)
         request_body = json.dumps({
