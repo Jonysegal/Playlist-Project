@@ -2,7 +2,7 @@ from SpotifyPlaylist import Runner
 class UserController:
     def __init__(self):
         self.runner = Runner()
-    def get_playlist_choice(self):
+    def get_requested_playlist(self):
         playlists = self.runner.get_playlists()
         playlistCount = len(playlists)
         if playlistCount == 0:
@@ -22,8 +22,8 @@ class UserController:
             print("index too high or too low idk")
             self.get_playlist_choice()
             return
-        self.lastSelectedPlaylist = playlists[index-1]
-        print("aight boyo u selected {}".format(self.lastSelectedPlaylist.get('name')))
+        self.requestedPlaylist = playlists[index-1]
+        print("aight boyo u selected {}".format(self.requestedPlaylist.get('name')))
         
     def get_requested_time(self):
         hours = input("how many hours u want it?")
@@ -47,17 +47,16 @@ class UserController:
             return
         seconds = int(seconds)
         
-        self.millisecondsRequested = self.milliseconds_from_hours_minutes_seconds(hours, minutes, seconds)
+        self.requestedTime = self.milliseconds_from_hours_minutes_seconds(hours, minutes, seconds)
         
     def milliseconds_from_hours_minutes_seconds(self, hours, minutes, seconds):
         return ((((hours * 60) + minutes) * 60) + seconds) * 1000
         
-    def get_playlist_length(self, playlist):
+    def get_total_tracks_length(self, tracks):
         length = 0
-        tracks = self.runner.get_tracks_in_playlist(self.lastSelectedPlaylist)
         for track in tracks:
             length += track.time
-        print("playlist was {} ms long".format(length))
+        return length
         
 
         
