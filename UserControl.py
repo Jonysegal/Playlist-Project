@@ -59,5 +59,22 @@ class UserController:
         return length
         
 
+    def main_sequence(self):
+        self.get_requested_playlist()
+        self.get_requested_time()
+        tracks = self.runner.get_tracks_in_playlist(self.requestedPlaylist)
+        playlistLength = self.get_total_tracks_length(tracks)
+        if self.requestedTime > playlistLength:
+            tooLongOk = input("Your playlist isn't long enough to make a playlist of that length. Is that cool? (y/n)")
+            if tooLongOk.lower() == "n":
+                self.main_sequence()
+                return
+        print("proceeding with {}".format(self.requestedPlaylist.get('name')))
+        
+            
+                
+            
+        
+    
         
     
