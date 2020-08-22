@@ -86,7 +86,7 @@ class Runner:
                 print("somethign went wrong reading stuff")
             else:
                 for track in response.json().get('items'):
-                    toReturn.append(Track(track.get('track').get('id'), track.get('track').get('duration_ms')))
+                    toReturn.append(Track(track.get('track').get('id'), track.get('track').get('duration_ms'), track.get('track').get('name')))
                     
             offset += 100
         return toReturn
