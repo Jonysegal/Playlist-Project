@@ -1,7 +1,9 @@
 from SpotifyPlaylist import Runner
+from PlaylistManipulations import PlaylistManipulator
 class UserController:
     def __init__(self):
         self.runner = Runner()
+        self.playlistManipulator = PlaylistManipulator()
     def get_requested_playlist(self):
         playlists = self.runner.get_playlists()
         playlistCount = len(playlists)
@@ -69,10 +71,13 @@ class UserController:
             if tooLongOk.lower() == "n":
                 self.main_sequence()
                 return
-        print("proceeding with {}".format(self.requestedPlaylist.get('name')))
+        print("proceeding with {} and {} tracks".format(self.requestedPlaylist.get('name'), len(tracks)))
         
-            
-                
+        generatedPlaylist = self.playlistManipulator.get_track_list_this_long_from_track_list(tracks, self.requestedTime)
+        print("generated list of tracks with {} tracks and total length {}".format(len(generatedPlaylist), self.get_total_tracks_length(generatedPlaylist)))
+        print("the new one contains:")
+        for x in generatedPlaylist:
+            print(x.name)
             
         
     
