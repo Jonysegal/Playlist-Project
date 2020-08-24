@@ -66,6 +66,7 @@ class UserController:
         return length
 
     def main_sequence(self):
+
         self.get_requested_playlist()
         self.get_requested_time()
         tracks = self.runner.get_tracks_in_playlist(self.requestedPlaylist)
@@ -94,3 +95,7 @@ class UserController:
         print("the new one contains:")
         for x in generatedPlaylist:
             print(x.name)
+
+        playID = self.runner.make_new_playlist_with_name_and_description("Ur timed playlist", "Playlist {} milliseconds long".format(self.get_total_tracks_length(generatedPlaylist)))
+        print("got back playid of {}".format(playID))
+        self.runner.add_tracks_to_playlist(generatedPlaylist, playID)
