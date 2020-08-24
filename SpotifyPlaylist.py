@@ -104,9 +104,9 @@ class Runner:
             offset += 100
         return toReturn
 
-    def make_new_playlist_called(self, name):
+    def make_new_playlist_with_name_and_description(self, name, description):
         url = "https://api.spotify.com/v1/users/{}/playlists".format(self.user_id)
-        request_body = json.dumps({"name": name})
+        request_body = json.dumps({"name": name, "description": description})
         response = requests.post(
             url,
             headers={"Authorization": f"Bearer {self.api_token}"},
