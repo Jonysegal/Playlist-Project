@@ -118,3 +118,25 @@ class Runner:
         else:
             print("successfully made playlist called {}".format(name))
             return response.json().get('id')
+
+    def add_tracks_to_playlist(self, tracks, playlistId):
+        tracklistLength = len(tracks)
+        if tracklistLength == 0:
+            print("yo not cool no tracks to add yo")
+            return
+        url = "https://api.spotify.com/v1/playlists/{}/tracks?uris=".format(playlistId)
+        index = 0
+        for track in tracks:
+            url += "spotify:track:"+track.uri
+            index += 1
+            if index < tracklistLength:
+                url += ","
+        response = requests.post(
+            url,
+            headers={"Content-Type": "application/json", "Authorization": f"Bearer {self.api_token}"},
+        )
+        if not response.ok:
+            print("couldn't modify playlist")
+            print(response.json())
+        else:
+            print("succesfully added tracks to playlist")
