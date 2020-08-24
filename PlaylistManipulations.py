@@ -1,6 +1,7 @@
-#This class will contain stuff used to make and mess with playlists.
-#SHOULD NOT INTERACT WITH QUERIES AT ALL, ONLY CREATING AND MANAGING LISTS WHICH WILL BE PASSED TO THE API INTERACTOR
+# This class will contain stuff used to make and mess with playlists.
+# SHOULD NOT INTERACT WITH QUERIES AT ALL, ONLY CREATING AND MANAGING LISTS WHICH WILL BE PASSED TO THE API INTERACTOR
 import random
+
 
 class PlaylistManipulator:
     def get_track_list_this_long_from_track_list(self, startTracks, time):
