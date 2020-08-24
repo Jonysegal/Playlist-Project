@@ -115,3 +115,6 @@ class Runner:
         if not response.ok:
             print("couldn't make playlist called {}".format(name))
             print(response.json())
+        else:
+            print("successfully made playlist called {}".format(name))
+            return response.json().get('id')
