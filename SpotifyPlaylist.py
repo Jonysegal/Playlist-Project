@@ -21,30 +21,17 @@ class Runner:
             },
         )
         response_json = response.json()
-
         if "tracks" not in response_json:
-            print("no tracks dum dum")
+            print("no tracks found for song {} and artist {}".format(artist, track))
             print(response_json)
+            return -1
 
         results = response_json["tracks"]["items"]
 
         if results:
-
-            print("succeeded")
-            return results[0]["id"]
-            addUrl = "https://api.spotify.com/v1/me/tracks"
-            print(addUrl)
-            response2 = requests.put(
-                addUrl,
-                json={"ids": [id]},
-                headers={
-                    "Content-Type": "application/json",
-                    "Authorization": f"Bearer {self.api_token}",
-                },
-            )
-            print(response2.ok)
+            trackJson = results[0]
+            return Track(trackJson.get("id"), trackJson.get("duration_ms"), trackJson.get("name"))
         else:
-            print("fuck")
 
     def add_song_to_playlist(self, trackId, playlistId):
         url = (
