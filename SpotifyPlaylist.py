@@ -32,25 +32,8 @@ class Runner:
             trackJson = results[0]
             return Track(trackJson.get("id"), trackJson.get("duration_ms"), trackJson.get("name"))
         else:
-
-    def add_song_to_playlist(self, trackId, playlistId):
-        url = (
-            "https://api.spotify.com/v1/playlists/"
-            + playlistId
-            + "/tracks?uris=spotify:track:"
-            + trackId
-        )
-
-        response = requests.post(
-            url,
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {self.api_token}",
-            },
-        )
-        if not response.ok:
-            print("adding song to playlist failed FUCK")
-            print(response.json())
+            print("no results for some reason")
+            return -1
 
     def get_playlists(self):
         url = "https://api.spotify.com/v1/me/playlists"
