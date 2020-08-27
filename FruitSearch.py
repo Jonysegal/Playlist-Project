@@ -1,4 +1,5 @@
 #LITTLE SIDE ADVENTURE TO MAKE A FRUIT PLAYLIST FOR NATE
+#CAN EASILY BE GENERALIZED INTO MAKE A PLAYLIST OFF OF LIST OF KEYWORDS
 from SpotifyPlaylist import Runner
 from PlaylistManipulations import PlaylistManipulator
 from track import Track

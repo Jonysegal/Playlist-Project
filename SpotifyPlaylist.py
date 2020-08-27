@@ -2,10 +2,10 @@ import requests
 import urllib.parse
 import json
 from track import Track
-
+from PlaylistManipulations import PlaylistManipulator
 
 class Runner:
-    api_token = "BQAwBkPt933N2-fCf-mypOmidzYM5h2TJn2jR8FiZzGwNaXTbNb-41XYyAFGW1n1oitu8KWejpSZEGK52hvHaEZONP2nSNRb2tG5FVZ0CtKnPrMv321RyFLfVGR0Aq8rBUZfmdnRz-Djb0PN9XYnngqOUwuu1FeAN58oDylIj8nZlUQjPLpSxXDQNLdHCnZrgUwsbwbDZkz0-TCZXzCj2qKWJuNot-ovtufTDicg6NoSIUdYWjVBxdy1jB4jUayC_Y-aLx9gNFGhBIRRw-wgWcL5Vdqj784fmIE1"
+    api_token = "BQAzGmCozVRiW_j-anXVZwvgXH-f19ldNAajicfg9gFFDPdfstcYicYgqpAq7PT6ygesxCZR1Mp9TXuU-soQw9QWIuN0uxhzBiF-q6zX7XzQ_LaHyD3VawztL7dIpwvM7gp3b4UTm2oYU3GOBIsGWK1p8fNKXYSVzinvdR-hODGoBLIiBSPYcsXECJcHZ85zEsVdZTNpHUWCzhI3R5wmW8wvWYQUTnc_S0SUyc9nCsgfBa2IGqbp9PIoLjHJfQc0oiZTEvWQ07RlNNLhbrSUngLtx_Sb8QGJ4Ps9"
     user_id = "ol0ys8y3412mh7tfh9n0lbprc"
 
     def search_song(self, artist, track):
@@ -75,6 +75,7 @@ class Runner:
         return toReturn
 
     def make_new_playlist_with_name_and_description(self, name, description):
+        #Still some issue with very large playlists, or maybe just larger than original? Not sure. 
         url = "https://api.spotify.com/v1/users/{}/playlists".format(self.user_id)
         request_body = json.dumps({"name": name, "description": description})
         response = requests.post(
@@ -86,7 +87,6 @@ class Runner:
             print("couldn't make playlist called {}".format(name))
             print(response.json())
         else:
-            print("successfully made playlist called {}".format(name))
             return response.json().get('id')
 
     def add_tracks_to_playlist(self, tracks, playlistId):

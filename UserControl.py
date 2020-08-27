@@ -6,7 +6,6 @@ class UserController:
     def __init__(self):
         self.runner = Runner()
         self.playlistManipulator = PlaylistManipulator()
-
     def get_requested_playlist(self):
         playlists = self.runner.get_playlists()
         playlistCount = len(playlists)
@@ -92,10 +91,6 @@ class UserController:
                 len(generatedPlaylist), self.get_total_tracks_length(generatedPlaylist)
             )
         )
-        print("the new one contains:")
-        for x in generatedPlaylist:
-            print(x.name)
 
         playID = self.runner.make_new_playlist_with_name_and_description("Ur timed playlist", "Playlist {} milliseconds long".format(self.get_total_tracks_length(generatedPlaylist)))
-        print("got back playid of {}".format(playID))
         self.runner.add_tracks_to_playlist(generatedPlaylist, playID)
