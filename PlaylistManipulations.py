@@ -3,10 +3,27 @@
 import random
 
 
+
 class PlaylistManipulator:
+
+    @staticmethod
+    def split_tracklist_into_chunks_of_one_hundered(tracks):
+        toReturn = []
+        tempCollection = []
+        index = 0
+        for track in tracks:
+            if index > 0 and index % 100 == 0:
+                toReturn.append(tempCollection)
+                tempCollection = []
+                index = 0
+            tempCollection.append(track)
+            index += 1
+        if len(tempCollection) > 0:
+            toReturn.append(tempCollection)
+        return toReturn
+
     def get_track_list_this_long_from_track_list(self, startTracks, time):
         startCount = len(startTracks)
-        print("starting analysis playlist {} songs long".format(startCount))
         if startCount == 0:
             print("get_track_list_this_long got 0 starttracks, not cool man")
             return
