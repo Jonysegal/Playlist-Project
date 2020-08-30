@@ -75,7 +75,6 @@ class Runner:
         return toReturn
 
     def make_new_playlist_with_name_and_description(self, name, description):
-        #Still some issue with very large playlists, or maybe just larger than original? Not sure. 
         url = "https://api.spotify.com/v1/users/{}/playlists".format(self.user_id)
         request_body = json.dumps({"name": name, "description": description})
         response = requests.post(
@@ -101,6 +100,8 @@ class Runner:
             url = "https://api.spotify.com/v1/playlists/{}/tracks?uris=".format(playlistId)
             index = 0
             for track in trackChunk:
+                if not isinstance(track.uri, str):
+                    continue
                 url += "spotify:track:"+track.uri
                 index += 1
                 if index < len(trackChunk):
